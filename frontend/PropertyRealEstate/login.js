@@ -7,8 +7,11 @@ import React, {
   ActivityIndicatorIOS,
   AsyncStorage,
   Text,
-  View
+  View,
+  ToolbarAndroid
 } from 'react-native';
+
+var Icon = require('react-native-vector-icons/Ionicons');
 
 const API_URL = 'http://192.168.1.126:3000';
 const ACCESS_TOKEN = 'access_token';
@@ -75,35 +78,44 @@ class Login extends Component {
         this.setState({showProgress: false});
     }
   }
+  backButton(){
+    return this.props.navigator.pop();
+  }
   render() {
-
     return (
-      <View style={styles.container}>
-        <Text style={styles.heading}>
-          Native on Rails
-        </Text>
-        <TextInput
-          onChangeText={ (text)=> this.setState({email: text}) }
-          style={styles.input} placeholder="Email">
-        </TextInput>
-        <TextInput
-          onChangeText={ (text)=> this.setState({password: text}) }
-          style={styles.input}
-          placeholder="Password"
-          secureTextEntry={true}>
-        </TextInput>
-        <TouchableHighlight onPress={this.onLoginPressed.bind(this)} style={styles.button}>
-          <Text style={styles.buttonText}>
-            Login
+      <View style={styles.wraper}>
+        <Icon.ToolbarAndroid
+           title="Login"
+           navIconName="android-arrow-back"
+           titleColor="white"
+           onIconClicked={this.backButton.bind(this)}
+           style={styles.toolbar}
+         />
+        <View style={styles.container}>
+          <Text style={styles.heading}>
+            Login Credentail
           </Text>
-        </TouchableHighlight>
+          <TextInput
+            onChangeText={ (text)=> this.setState({email: text}) }
+            style={styles.input} placeholder="Email">
+          </TextInput>
+          <TextInput
+            onChangeText={ (text)=> this.setState({password: text}) }
+            style={styles.input}
+            placeholder="Password"
+            secureTextEntry={true}>
+          </TextInput>
+          <TouchableHighlight onPress={this.onLoginPressed.bind(this)} style={styles.button}>
+            <Text style={styles.buttonText}>
+              Login
+            </Text>
+          </TouchableHighlight>
 
-        <Text style={styles.error}>
-          {this.state.error}
-        </Text>
-
-        <ActivityIndicatorIOS animating={this.state.showProgress} size="large" style={styles.loader} />
+          <Text style={styles.error}>
+            {this.state.error}
+          </Text>
       </View>
+    </View>
     );
   }
 }
@@ -127,7 +139,7 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 50,
-    backgroundColor: '#48BBEC',
+    backgroundColor: '#006600',
     alignSelf: 'stretch',
     marginTop: 10,
     justifyContent: 'center'
@@ -150,7 +162,30 @@ const styles = StyleSheet.create({
   },
   loader: {
     marginTop: 20
+  },
+  toolbar: {
+    backgroundColor: '#006699',
+    height: 60
+  },
+  wraper: {
+    flex: 1,
+  },
+  backChevron: {
+
+  },
+  buttons: {
+
+  },
+  leftButtonHolder: {
+
+  },
+  mediumText: {
+
+  },
+  navBarText:{
+
   }
+
 });
 
 export default Login

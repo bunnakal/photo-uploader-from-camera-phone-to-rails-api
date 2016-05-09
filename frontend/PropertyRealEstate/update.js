@@ -7,10 +7,13 @@ import React, {
   AsyncStorage,
   ActivityIndicatorIOS,
   Text,
-  View
+  View,
+  ToolbarAndroid
 } from 'react-native';
+var Icon = require('react-native-vector-icons/Ionicons');
 
 const ACCESS_TOKEN = 'access_token';
+const API_URL = 'http://192.168.1.126:3000';
 
 class Update extends Component {
   constructor(props){
@@ -40,7 +43,7 @@ class Update extends Component {
   async fetchUserData() {
     let access_token = this.state.accessToken;
     try {
-      let response = await fetch("https://afternoon-beyond-22141.herokuapp.com/api/users/"+access_token+"/edit");
+      let response = await fetch(API_URL + "/api/users/"+access_token+"/edit");
       let res = await response.text();
       if (response.status >= 200 && response.status < 300) {
           //Handle success
@@ -63,7 +66,7 @@ class Update extends Component {
     this.setState({showProgress: true});
     let access_token = this.state.accessToken;
     try {
-      let response = await fetch("https://afternoon-beyond-22141.herokuapp.com/api/users/"+access_token, {
+      let response = await fetch(API_URL + "/api/users/"+access_token, {
                               method: 'PATCH',
                               headers: {
                                 'Accept': 'application/json',
@@ -104,42 +107,52 @@ class Update extends Component {
         this.setState({showProgress: false});
     }
   }
+  backButton(){
+    return this.props.navigator.pop();
+  }
   render() {
 
     return (
-      <View style={styles.container}>
-        <Text style={styles.heading}>
-          Account Details
-        </Text>
-        <TextInput
-          onChangeText={ (text)=> this.setState({email: text}) }
-          style={styles.input} value={this.state.email}>
-        </TextInput>
-        <TextInput
-          onChangeText={ (text)=> this.setState({name: text}) }
-          style={styles.input} value={this.state.name}>
-        </TextInput>
-        <TextInput
-          onChangeText={ (text)=> this.setState({password: text}) }
-          style={styles.input}
-          placeholder="Password"
-          secureTextEntry={true}>
-        </TextInput>
-        <TextInput
-          onChangeText={ (text)=> this.setState({password_confirmation: text}) }
-          style={styles.input}
-          placeholder="Confirm Password"
-          secureTextEntry={true}>
-        </TextInput>
-        <TouchableHighlight onPress={this.onUpdatePressed.bind(this)} style={styles.button}>
-          <Text style={styles.buttonText}>
-            Update
+      <View style={styles.wraper}>
+        <Icon.ToolbarAndroid
+          title="Update"
+          navIconName="android-arrow-back"
+          titleColor="white"
+          onIconClicked={this.backButton.bind(this)}
+          style={styles.toolbar}
+         />
+        <View style={styles.container}>
+          <Text style={styles.heading}>
+            Account Details
           </Text>
-        </TouchableHighlight>
+          <TextInput
+            onChangeText={ (text)=> this.setState({email: text}) }
+            style={styles.input} value={this.state.email}>
+          </TextInput>
+          <TextInput
+            onChangeText={ (text)=> this.setState({name: text}) }
+            style={styles.input} value={this.state.name}>
+          </TextInput>
+          <TextInput
+            onChangeText={ (text)=> this.setState({password: text}) }
+            style={styles.input}
+            placeholder="Password"
+            secureTextEntry={true}>
+          </TextInput>
+          <TextInput
+            onChangeText={ (text)=> this.setState({password_confirmation: text}) }
+            style={styles.input}
+            placeholder="Confirm Password"
+            secureTextEntry={true}>
+          </TextInput>
+          <TouchableHighlight onPress={this.onUpdatePressed.bind(this)} style={styles.button}>
+            <Text style={styles.buttonText}>
+              Update
+            </Text>
+          </TouchableHighlight>
 
-        <Errors errors={this.state.errors}/>
-
-        <ActivityIndicatorIOS animating={this.state.showProgress} size="large" style={styles.loader} />
+          <Errors errors={this.state.errors}/>
+        </View>
       </View>
     );
   }
@@ -172,7 +185,7 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 50,
-    backgroundColor: '#48BBEC',
+    backgroundColor: '#680000',
     alignSelf: 'stretch',
     marginTop: 10,
     justifyContent: 'center'
@@ -191,6 +204,13 @@ const styles = StyleSheet.create({
   },
   loader: {
     marginTop: 20
+  },
+  toolbar: {
+    backgroundColor: '#006699',
+    height: 60
+  },
+  wraper: {
+    flex: 1,
   }
 });
 

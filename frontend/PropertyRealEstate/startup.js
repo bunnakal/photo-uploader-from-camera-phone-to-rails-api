@@ -60,6 +60,7 @@ class Startup extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Welcome</Text>
+        <Text style={styles.title}>Real Estate Property</Text>
         <Image
           style={styles.icon}
           source={require('./assets/holding_a_house.png')}

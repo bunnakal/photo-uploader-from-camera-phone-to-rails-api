@@ -8,8 +8,11 @@ import React, {
   AsyncStorage,
   ActivityIndicatorIOS,
   Text,
-  View
+  View,
+  ToolbarAndroid
 } from 'react-native';
+
+var Icon = require('react-native-vector-icons/Ionicons');
 
 const API_URL = 'http://192.168.1.126:3000';
 const ACCESS_TOKEN = 'access_token';
@@ -89,41 +92,51 @@ class Register extends Component {
       this.setState({showProgress: false});
     }
   }
+  backButton(){
+    return this.props.navigator.pop();
+  }
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.heading}>
-          Join us now!
-        </Text>
-        <TextInput
-          onChangeText={ (text)=> this.setState({email: text}) }
-          style={styles.input} placeholder="Email">
-        </TextInput>
-        <TextInput
-          onChangeText={ (text)=> this.setState({name: text}) }
-          style={styles.input} placeholder="Name">
-        </TextInput>
-        <TextInput
-          onChangeText={ (text)=> this.setState({password: text}) }
-          style={styles.input}
-          placeholder="Password"
-          secureTextEntry={true}>
-        </TextInput>
-        <TextInput
-          onChangeText={ (text)=> this.setState({password_confirmation: text}) }
-          style={styles.input}
-          placeholder="Confirm Password"
-          secureTextEntry={true}>
-        </TextInput>
-        <TouchableHighlight onPress={this.onRegisterPressed.bind(this)} style={styles.button}>
-          <Text style={styles.buttonText}>
-            Register
+      <View style={styles.wraper}>
+        <Icon.ToolbarAndroid
+          title="Register"
+          navIconName="android-arrow-back"
+          titleColor="white"
+          onIconClicked={this.backButton.bind(this)}
+          style={styles.toolbar}
+         />
+        <View style={styles.container}>
+          <Text style={styles.heading}>
+            Join us now!
           </Text>
-        </TouchableHighlight>
+          <TextInput
+            onChangeText={ (text)=> this.setState({email: text}) }
+            style={styles.input} placeholder="Email">
+          </TextInput>
+          <TextInput
+            onChangeText={ (text)=> this.setState({name: text}) }
+            style={styles.input} placeholder="Name">
+          </TextInput>
+          <TextInput
+            onChangeText={ (text)=> this.setState({password: text}) }
+            style={styles.input}
+            placeholder="Password"
+            secureTextEntry={true}>
+          </TextInput>
+          <TextInput
+            onChangeText={ (text)=> this.setState({password_confirmation: text}) }
+            style={styles.input}
+            placeholder="Confirm Password"
+            secureTextEntry={true}>
+          </TextInput>
+          <TouchableHighlight onPress={this.onRegisterPressed.bind(this)} style={styles.button}>
+            <Text style={styles.buttonText}>
+              Register
+            </Text>
+          </TouchableHighlight>
 
-        <Errors errors={this.state.errors}/>
-
-        <ActivityIndicatorIOS animating={this.state.showProgress} size="large" style={styles.loader} />
+          <Errors errors={this.state.errors}/>
+        </View>
       </View>
     );
   }
@@ -156,7 +169,7 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 50,
-    backgroundColor: '#48BBEC',
+    backgroundColor: '#680000',
     alignSelf: 'stretch',
     marginTop: 10,
     justifyContent: 'center'
@@ -175,6 +188,13 @@ const styles = StyleSheet.create({
   },
   loader: {
     marginTop: 20
+  },
+  toolbar: {
+    backgroundColor: '#006699',
+    height: 60
+  },
+  wraper: {
+    flex: 1,
   }
 });
 
